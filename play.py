@@ -17,7 +17,12 @@ server_url = 'http://localhost:5000/'
 def play():
 
     # get the question from the server
-    response = requests.get(url=server_url+'lotterMe')
+    # response = requests.get(url=server_url+'lotterMe')
+    # sel_url = server_url + 'play?question={0}&selection={1}&payout_address={2}'
+    # answer = requests.get(url=sel_url.format(question,ans, wallet.get_payout_address()))
+    lotter_url = server_url+'lotterMe?payout_address={0}'
+    response = requests.get(url=lotter_url.format(wallet.get_payout_address()))
+
     question = response.text
     print(question)
 
