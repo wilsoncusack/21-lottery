@@ -1,6 +1,7 @@
 import os
 import json
 import random
+import psycopg2
 
 # import flask web microframework
 from flask import Flask
@@ -14,40 +15,45 @@ app = Flask(__name__)
 wallet = Wallet()
 payment = Payment(app, wallet)
 
-question_bank = {
-    'Who is the inventor of Bitcoin': 'Satoshi Nakamoto',
-    'How many satoshis are in a bitcoin': '100000000',
-    'What is the current coinbase reward (in BTC) for mining a block': '25'
-}
-
-question_list = list(question_bank.keys())
 
 # endpoint to get a question from the server
-@app.route('/question')
-def get_question():
-    return question_list[random.randrange(0,len(question_list))]
+@app.route('/lotterMe')
+def update_count(newCount, cursor):
+    SQL = "INSERT UPDATE lottery SET request_count = %s;"
+    data = (newCount,)
+    cursor.execute(SQL, data)
 
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/play')
 @payment.required(1000)
 def answer_question():
+    conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    cursor = conn.cursor()
 
-    # extract answer from client request
-    answer = request.args.get('selection')
+    cursor.execute("SELECT request_count FROM lottery;")
+    count = cursor.fetchone()[0]
 
-    # extract payout address from client address
-    client_payout_addr = request.args.get('payout_address')
-    print request.args
+    #cursor.execute("SELECT request_count FROM lottery;")
+    #iteration = cursor.fetchone()[0]
 
-    # extract question from client request
-    client_question = request.args.get('question')
+    if count == 3
+        cursor.execute("SELECT pot_size FROM lottery;")
+        potSize = cursor.fetchone()[0]
 
-    # check if answer is correct
-    if answer.lower() == question_bank[client_question].lower():
-        txid = wallet.send_to(client_payout_addr, 2000)
-        return "Correct!"
-    else:
-        return "Incorrect response."
+        client_payout_addr = request.args.get('payout_address')
+        txid = wallet.send_to(client_payout_addr, potSize)
+
+        SQL = "INSERT UPDATE lottery SET pot_size = %s;"
+        newPotSize = (potSize/2) + 3000
+        data = (newPotSize,)
+        cursor.execute(SQL, data)
+
+        update_count(0)
+        return "You win!"
+    else
+        update_count(count + 1)
+        return "Sorry! Try again!"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
