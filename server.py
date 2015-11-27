@@ -41,6 +41,8 @@ def answer_question():
     if (count + 1) == 3:
         cursor.execute("SELECT pot_size FROM lottery;")
         potSize = cursor.fetchone()[0]
+        print("pot size = " + str(potSize))
+        print(request.args)
 
         client_payout_addr = request.args.get('payout_address')
         txid = wallet.send_to(client_payout_addr, potSize)
