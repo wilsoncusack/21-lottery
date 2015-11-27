@@ -14,6 +14,13 @@ app = Flask(__name__)
 wallet = Wallet()
 payment = Payment(app, wallet)
 
+conn = psycopg2.connect(database="lottery", user="postgres",)
+cursor = conn.cursor()
+
+cursor.execute("SELECT hit_number from lottery;")
+print(cursor.fetchone()[0])
+
+
 question_bank = {
     'Who is the inventor of Bitcoin': 'Satoshi Nakamoto',
     'How many satoshis are in a bitcoin': '100000000',
