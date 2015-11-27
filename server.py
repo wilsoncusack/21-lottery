@@ -69,8 +69,8 @@ def answer_question():
         return "Sorry! Try again!"
 
     # close connection and commit changes
-    conn.commit()
-    cursor.close()   
+    #conn.commit()
+    #cursor.close()   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
