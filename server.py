@@ -32,6 +32,8 @@ def answer_question():
 
     cursor.execute("SELECT request_count FROM lottery;")
     count = cursor.fetchone()[0]
+    print(count)
+    print("HELLO!")
 
     #cursor.execute("SELECT request_count FROM lottery;")
     #iteration = cursor.fetchone()[0]
@@ -48,10 +50,17 @@ def answer_question():
         data = (newPotSize,)
         cursor.execute(SQL, data)
 
-        update_count(0)
+        #update_count(0)
+        SQL = "INSERT UPDATE lottery SET request_count = %s;"
+        data = (0,)
+        cursor.execute(SQL, data)
         return "You win!"
     else:
-        update_count(count + 1)
+        SQL = "INSERT UPDATE lottery SET request_count = %s;"
+        data = ((count + 1),)
+        cursor.execute(SQL, data)
+
+        #update_count(count + 1)
         return "Sorry! Try again!"
 
 
