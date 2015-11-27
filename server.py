@@ -34,23 +34,14 @@ def placeBet():
         print("pot size = " + str(winningPotAmount))
         print(winningAddresss)
 
-        # client_payout_addr = request.args.get('payout_address')
         print("did you get here?")
         txid = wallet.send_to(winningAddresss, winningPotAmount)
         print("got here")
+        ########################
         # somehow calculate the new pot size
         # newPotSize = pot
         # roundSize = lastroundSize * 2
         # newWinningBetNumber = getWinningBetNumberFromRange()
-        ########################
-        # roundsTable.execute("")
-        # SQL = "UPDATE lottery SET pot_size = %s;"
-        # newPotSize = (potSize/2) + 3000
-        # data = (newPotSize,)
-        # betsTable.execute(SQL, data)
-        # update_count(0, betsTable)
-
-        # betsTable.commit()
         ######################
         betsTable.close()
         roundsTable.close()
@@ -58,8 +49,7 @@ def placeBet():
         return "You win!"
     else:
         betsTable.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
-        # update_count((count + 1), betsTable)
-        # betsTable.commit()
+
         betsTable.close()
         roundsTable.close()
 
