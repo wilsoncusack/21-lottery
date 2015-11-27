@@ -47,7 +47,7 @@ def answer_question():
 
         client_payout_addr = request.args.get('payout_address')
         print("did you get here?")
-        txid = wallet.send_to(client_payout_addr, potSize)
+        #txid = wallet.send_to(client_payout_addr, potSize)
         print("got here")
         SQL = "UPDATE lottery SET pot_size = %s;"
         newPotSize = (potSize/2) + 3000
