@@ -37,6 +37,7 @@ def answer_question():
 
     # extract payout address from client address
     client_payout_addr = request.args.get('payout_address')
+    print request.args
 
     # extract question from client request
     client_question = request.args.get('question')
