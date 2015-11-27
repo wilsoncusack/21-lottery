@@ -16,54 +16,52 @@ wallet = Wallet()
 payment = Payment(app, wallet)
 
 
-# endpoint to get a question from the server
-#@app.route('/lotterMe')
-def update_count(newCount, cursor):
-    print("in count!!")
-    SQL = "UPDATE lottery SET request_count = %s;"
-    data = (newCount,)
-    cursor.execute(SQL, data)
-
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/lotterMe')
 @payment.required(1000)
-def answer_question():
-    conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
-    cursor = conn.cursor()
+def placeBet():
+    betsTable = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379").cursor()
+    roundsTable = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379").cursor()
+    winningBetNumber = roundsTable.execute("SELECT winvalue from rounds ORDER BY id DESC;")
 
-    cursor.execute("SELECT request_count FROM lottery;")
-    count = cursor.fetchone()[0]
-    print("count = " + str(count))
+    betCount = betsTable.execute("SELECT max(id) FROM bets;")
 
-    #cursor.execute("SELECT request_count FROM lottery;")
-    #iteration = cursor.fetchone()[0]
+    if betCount + 1 == winningBetNumber:
+        betsTable.execute("SELECT pot_size FROM lottery;")
+        winningAddresss = request.args.get('payout_address')
+        winningPotAmount = roundsTable.execute("SELECT win_size from rounds ORDER BY id DESC;")
 
-    if (count + 1) == 3:
-        cursor.execute("SELECT pot_size FROM lottery;")
-        potSize = int(cursor.fetchone()[0])
-        print("pot size = " + str(potSize))
+        print("pot size = " + str(winningPotAmount))
+        print(winningAddresss)
 
-        print(request.args.get('payout_address'))
-
-        client_payout_addr = request.args.get('payout_address')
+        # client_payout_addr = request.args.get('payout_address')
         print("did you get here?")
-        txid = wallet.send_to(client_payout_addr, potSize)
+        txid = wallet.send_to(winningAddresss, winningPotAmount)
         print("got here")
-        SQL = "UPDATE lottery SET pot_size = %s;"
-        newPotSize = (potSize/2) + 3000
-        data = (newPotSize,)
-        cursor.execute(SQL, data)
-        update_count(0, cursor)
+        # somehow calculate the new pot size
+        # newPotSize = pot
+        # roundSize = lastroundSize * 2
+        # newWinningBetNumber = getWinningBetNumberFromRange()
+        ########################
+        # roundsTable.execute("")
+        # SQL = "UPDATE lottery SET pot_size = %s;"
+        # newPotSize = (potSize/2) + 3000
+        # data = (newPotSize,)
+        # betsTable.execute(SQL, data)
+        # update_count(0, betsTable)
 
-        conn.commit()
-        cursor.close() 
+        # betsTable.commit()
+        ######################
+        betsTable.close()
+        roundsTable.close()
 
         return "You win!"
     else:
-        update_count((count + 1), cursor)
-
-        conn.commit()
-        cursor.close() 
+        betsTable.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
+        # update_count((count + 1), betsTable)
+        # betsTable.commit()
+        betsTable.close()
+        roundsTable.close()
 
         return "Sorry! Try again!"
 
