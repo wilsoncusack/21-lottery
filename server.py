@@ -23,31 +23,21 @@ question_bank = {
 question_list = list(question_bank.keys())
 
 # endpoint to get a question from the server
-@app.route('/question')
+@app.route('/lottery')
 def get_question():
     return question_list[random.randrange(0,len(question_list))]
 
 # machine-payable endpoint that pays user if answer is correct
-@app.route('/play')
-@payment.required(1000)
-def answer_question():
-
-    # extract answer from client request
-    answer = request.args.get('selection')
-
-    # extract payout address from client address
+@app.route('/lottery/<int:amount>')
+@payment.required(amount)
+def win_money():
+    randomNumber = rand.randrange(0,10)
     client_payout_addr = request.args.get('payout_address')
-    print request.args
-
-    # extract question from client request
-    client_question = request.args.get('question')
-
-    # check if answer is correct
-    if answer.lower() == question_bank[client_question].lower():
-        txid = wallet.send_to(client_payout_addr, 2000)
-        return "Correct!"
+    if randomNumber >= 8
+        wallet.send_to(client_payout_addr, (amount * 2))
     else:
-        return "Incorrect response."
+        wallet.send_to(client_payout_addr, (amount/2))
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
