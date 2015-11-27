@@ -23,12 +23,12 @@ def placeBet():
     print("in route")
     dataBaseConnection = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     connection = dataBaseConnection.cursor()
+    print("connected to DB")
     # betsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     # betsTable = betsTableConnection.cursor()
-    print("connected to bets table")
     # roundsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     # roundsTable = roundsTableConnection.cursor()
-    print("connected to rounds table")
+
     winningBetNumber = connection.execute("SELECT winvalue from rounds ORDER BY id DESC;")
 
     betCount = connection.execute("SELECT max(id) FROM bets;")
