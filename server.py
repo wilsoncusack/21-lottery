@@ -53,12 +53,10 @@ def answer_question():
         newPotSize = (potSize/2) + 3000
         data = (newPotSize,)
         cursor.execute(SQL, data)
-        print("and here")
         update_count(0, cursor)
 
         conn.commit()
         cursor.close() 
-        print("ended!")
 
         return "You win!"
     else:
@@ -66,7 +64,6 @@ def answer_question():
 
         conn.commit()
         cursor.close() 
-        print("ended!") 
 
         return "Sorry! Try again!"
 
