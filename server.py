@@ -19,6 +19,7 @@ payment = Payment(app, wallet)
 # endpoint to get a question from the server
 #@app.route('/lotterMe')
 def update_count(newCount, cursor):
+    print("in count!!")
     SQL = "UPDATE lottery SET request_count = %s;"
     data = (newCount,)
     cursor.execute(SQL, data)
@@ -30,6 +31,12 @@ def answer_question():
     conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     cursor = conn.cursor()
 
+    cursor.execute("SELECT request_count FROM lottery;")
+    count = cursor.fetchone()[0]
+    print(count)
+    print("HELLO!")
+
+    update_count(1, cursor) 
     cursor.execute("SELECT request_count FROM lottery;")
     count = cursor.fetchone()[0]
     print(count)
@@ -50,7 +57,7 @@ def answer_question():
         data = (newPotSize,)
         cursor.execute(SQL, data)
 
-        update_count(0)
+        update_count(0, cursor)
         # SQL = "UPDATE lottery SET request_count = %s;"
         # data = (0,)
         # cursor.execute(SQL, data)
@@ -60,7 +67,7 @@ def answer_question():
         # data = ((count + 1),)
         # cursor.execute(SQL, data)
 
-        update_count(count + 1)
+        update_count(count + 1, cursor)
         return "Sorry! Try again!"
 
 
