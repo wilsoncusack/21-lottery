@@ -20,8 +20,13 @@ payment = Payment(app, wallet)
 @app.route('/lotterMe')
 @payment.required(1000)
 def placeBet():
-    betsTable = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379").cursor()
-    roundsTable = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379").cursor()
+    print("in route")
+    betsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    betsTable = betsTableConnection.cursor()
+    print("connected to bets table")
+    roundsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    roundsTable = roundsTableConnection.cursor()
+    print("connected to rounds table")
     winningBetNumber = roundsTable.execute("SELECT winvalue from rounds ORDER BY id DESC;")
 
     betCount = betsTable.execute("SELECT max(id) FROM bets;")
@@ -48,6 +53,7 @@ def placeBet():
 
         return "You win!"
     else:
+        print("in else statement")
         betsTable.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
 
         betsTable.close()
