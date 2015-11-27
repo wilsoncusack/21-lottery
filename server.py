@@ -30,10 +30,11 @@ def placeBet():
     # roundsTable = roundsTableConnection.cursor()
     print("connected to rounds table")
     winningBetNumber = connection.execute("SELECT winvalue from rounds ORDER BY id DESC;")
-
+    print("first query")
     betCount = connection.execute("SELECT max(id) FROM bets;")
-
+    print("second query")
     if betCount + 1 == winningBetNumber:
+        print("in if")
         connection.execute("SELECT pot_size FROM lottery;")
         winningAddresss = request.args.get('payout_address')
         winningPotAmount = connection.execute("SELECT win_size from rounds ORDER BY id DESC;")
