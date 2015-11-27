@@ -21,8 +21,8 @@ payment = Payment(app, wallet)
 @payment.required(1000)
 def placeBet():
     print("in route")
-    dataBaseConnection = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
-    cursor = dataBaseConnection.cursor()
+    databaseConnection = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    cursor = databaseConnection.cursor()
 
     cursor.execute("SELECT winvalue from rounds ORDER BY id DESC;")
     winningBetNumber = cursor.fetchone()[0]
@@ -45,21 +45,22 @@ def placeBet():
         txid = wallet.send_to(winningAddresss, winningPotAmount)
         print("got here")
         ########################
-        # somehow calculate the new pot size
+        # calculate the new pot size
         # newPotSize = pot
         # roundSize = lastroundSize * 2
         # newWinningBetNumber = getWinningBetNumberFromRange()
         ######################
+        databaseConnection.commit()
         cursor.close()
-        # roundsTable.close()
 
         return "You win!"
     else:
         print("in else statement")
-        cursor.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
+        print(request.args.get('payout_address'))
+        cursor.execute("INSERT INTO bets (addresss) VALUES (%s);", (request.args.get('payout_address'),))
 
+        databaseConnection.commit()
         cursor.close()
-        # roundsTable.close()
 
         return "Sorry! Try again!"
 
