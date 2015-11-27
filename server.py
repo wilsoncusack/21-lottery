@@ -43,15 +43,16 @@ def answer_question():
         potSize = cursor.fetchone()[0]
         print("pot size = " + str(potSize))
         print(request.args)
+        print(request.args.get('payout_address'))
 
         client_payout_addr = request.args.get('payout_address')
         txid = wallet.send_to(client_payout_addr, potSize)
-
+        print("got here")
         SQL = "UPDATE lottery SET pot_size = %s;"
         newPotSize = (potSize/2) + 3000
         data = (newPotSize,)
         cursor.execute(SQL, data)
-
+        print("and here")
         update_count(0, cursor)
 
         conn.commit()
