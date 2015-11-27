@@ -33,14 +33,7 @@ def answer_question():
 
     cursor.execute("SELECT request_count FROM lottery;")
     count = cursor.fetchone()[0]
-    print(count)
-    print("HELLO!")
-
-    update_count(1, cursor) 
-    cursor.execute("SELECT request_count FROM lottery;")
-    count = cursor.fetchone()[0]
-    print(count)
-    print("HELLO!")
+    print("count = " + count)
 
     #cursor.execute("SELECT request_count FROM lottery;")
     #iteration = cursor.fetchone()[0]
