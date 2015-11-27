@@ -17,13 +17,9 @@ server_url = 'http://localhost:5000/'
 def play():
 
     # get the question from the server
-    response = requests.get(url=server_url+'question')
+    response = requests.get(url=server_url+'lotterMe')
     question = response.text
-
-    ans = input("Question: {}?\n".format(question))
-    sel_url = server_url + 'play?question={0}&selection={1}&payout_address={2}'
-    answer = requests.get(url=sel_url.format(question,ans, wallet.get_payout_address()))
-    print(answer.text)
+    print(question)
 
 if __name__ == '__main__':
     play()
