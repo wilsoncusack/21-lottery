@@ -19,7 +19,7 @@ payment = Payment(app, wallet)
 # endpoint to get a question from the server
 #@app.route('/lotterMe')
 def update_count(newCount, cursor):
-    SQL = "INSERT UPDATE lottery SET request_count = %s;"
+    SQL = "UPDATE lottery SET request_count = %s;"
     data = (newCount,)
     cursor.execute(SQL, data)
 
@@ -45,22 +45,22 @@ def answer_question():
         client_payout_addr = request.args.get('payout_address')
         txid = wallet.send_to(client_payout_addr, potSize)
 
-        SQL = "INSERT UPDATE lottery SET pot_size = %s;"
+        SQL = "UPDATE lottery SET pot_size = %s;"
         newPotSize = (potSize/2) + 3000
         data = (newPotSize,)
         cursor.execute(SQL, data)
 
-        #update_count(0)
-        SQL = "INSERT UPDATE lottery SET request_count = %s;"
-        data = (0,)
-        cursor.execute(SQL, data)
+        update_count(0)
+        # SQL = "UPDATE lottery SET request_count = %s;"
+        # data = (0,)
+        # cursor.execute(SQL, data)
         return "You win!"
     else:
-        SQL = "INSERT UPDATE lottery SET request_count = %s;"
-        data = ((count + 1),)
-        cursor.execute(SQL, data)
+        # SQL = "UPDATE lottery SET request_count = %s;"
+        # data = ((count + 1),)
+        # cursor.execute(SQL, data)
 
-        #update_count(count + 1)
+        update_count(count + 1)
         return "Sorry! Try again!"
 
 
