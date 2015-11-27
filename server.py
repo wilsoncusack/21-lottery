@@ -35,11 +35,6 @@ def answer_question():
     count = cursor.fetchone()[0]
     print("count = " + str(count))
 
-    update_count(1, cursor)
-    cursor.execute("SELECT request_count FROM lottery;")
-    count = cursor.fetchone()[0]
-    print("count = " + str(count))
-
     #cursor.execute("SELECT request_count FROM lottery;")
     #iteration = cursor.fetchone()[0]
 
@@ -56,22 +51,20 @@ def answer_question():
         cursor.execute(SQL, data)
 
         update_count(0, cursor)
-        # SQL = "UPDATE lottery SET request_count = %s;"
-        # data = (0,)
-        # cursor.execute(SQL, data)
+
+        conn.commit()
+        cursor.close() 
+        print("ended!")
+
         return "You win!"
     else:
-        # SQL = "UPDATE lottery SET request_count = %s;"
-        # data = ((count + 1),)
-        # cursor.execute(SQL, data)
-
         update_count((count + 1), cursor)
-        return "Sorry! Try again!"
 
-    # close connection and commit changes
-    conn.commit()
-    cursor.close() 
-    print("ended!")  
+        conn.commit()
+        cursor.close() 
+        print("ended!") 
+
+        return "Sorry! Try again!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
