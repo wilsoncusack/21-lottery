@@ -35,6 +35,11 @@ def answer_question():
     count = cursor.fetchone()[0]
     print("count = " + str(count))
 
+    update_count(1, cursor)
+    cursor.execute("SELECT request_count FROM lottery;")
+    count = cursor.fetchone()[0]
+    print("count = " + str(count))
+
     #cursor.execute("SELECT request_count FROM lottery;")
     #iteration = cursor.fetchone()[0]
 
@@ -60,7 +65,7 @@ def answer_question():
         # data = ((count + 1),)
         # cursor.execute(SQL, data)
 
-        update_count(count + 1, cursor)
+        update_count((count + 1), cursor)
         return "Sorry! Try again!"
 
     # close connection and commit changes
