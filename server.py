@@ -21,20 +21,22 @@ payment = Payment(app, wallet)
 @payment.required(1000)
 def placeBet():
     print("in route")
-    betsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
-    betsTable = betsTableConnection.cursor()
+    dataBaseConnection = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    connection = dataBaseConnection.cursor()
+    # betsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    # betsTable = betsTableConnection.cursor()
     print("connected to bets table")
-    roundsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
-    roundsTable = roundsTableConnection.cursor()
+    # roundsTableConnection = psycopg2.connect(database="bets", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    # roundsTable = roundsTableConnection.cursor()
     print("connected to rounds table")
-    winningBetNumber = roundsTable.execute("SELECT winvalue from rounds ORDER BY id DESC;")
+    winningBetNumber = connection.execute("SELECT winvalue from rounds ORDER BY id DESC;")
 
-    betCount = betsTable.execute("SELECT max(id) FROM bets;")
+    betCount = connection.execute("SELECT max(id) FROM bets;")
 
     if betCount + 1 == winningBetNumber:
-        betsTable.execute("SELECT pot_size FROM lottery;")
+        connection.execute("SELECT pot_size FROM lottery;")
         winningAddresss = request.args.get('payout_address')
-        winningPotAmount = roundsTable.execute("SELECT win_size from rounds ORDER BY id DESC;")
+        winningPotAmount = connection.execute("SELECT win_size from rounds ORDER BY id DESC;")
 
         print("pot size = " + str(winningPotAmount))
         print(winningAddresss)
@@ -48,16 +50,16 @@ def placeBet():
         # roundSize = lastroundSize * 2
         # newWinningBetNumber = getWinningBetNumberFromRange()
         ######################
-        betsTable.close()
-        roundsTable.close()
+        connection.close()
+        # roundsTable.close()
 
         return "You win!"
     else:
         print("in else statement")
-        betsTable.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
+        connection.execute("INSERT INTO bets (addresss) VALUES (" + request.args.get('payout_address') + ");")
 
-        betsTable.close()
-        roundsTable.close()
+        connection.close()
+        # roundsTable.close()
 
         return "Sorry! Try again!"
 
