@@ -14,18 +14,10 @@ app = Flask(__name__)
 wallet = Wallet()
 payment = Payment(app, wallet)
 
-question_bank = {
-    'Who is the inventor of Bitcoin': 'Satoshi Nakamoto',
-    'How many satoshis are in a bitcoin': '100000000',
-    'What is the current coinbase reward (in BTC) for mining a block': '25'
-}
-
-question_list = list(question_bank.keys())
-
 # endpoint to get a question from the server
-@app.route('/question')
-def get_question():
-    return question_list[random.randrange(0,len(question_list))]
+@app.route('/')
+def get_bet():
+    return "you're better number X, once 10 betters have played, a winner will be chosen"
 
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/play')
