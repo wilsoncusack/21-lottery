@@ -33,12 +33,12 @@ def answer_question():
 
     cursor.execute("SELECT request_count FROM lottery;")
     count = cursor.fetchone()[0]
-    print("count = " + count)
+    print("count = " + str(count))
 
     #cursor.execute("SELECT request_count FROM lottery;")
     #iteration = cursor.fetchone()[0]
 
-    if count == 3:
+    if (count + 1) == 3:
         cursor.execute("SELECT pot_size FROM lottery;")
         potSize = cursor.fetchone()[0]
 
@@ -63,6 +63,9 @@ def answer_question():
         update_count(count + 1, cursor)
         return "Sorry! Try again!"
 
+    # close connection and commit changes
+    conn.commit()
+    cursor.close()   
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
