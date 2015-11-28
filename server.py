@@ -7,6 +7,7 @@ import math
 # import flask web microframework
 from flask import Flask
 from flask import request
+from flask import render_template
 
 # import from the 21 Developer Library
 from two1.lib.wallet import Wallet
