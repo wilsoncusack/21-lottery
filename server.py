@@ -60,6 +60,8 @@ def answer_question():
     if winning_bid_number == client_bid_number:
         #txid = wallet.send_to(client_payout_addr, pot_size/2)
 
+        cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
+
         random_number = math.floor(random.random()*(10*(2**(current_round_number + 1)))) + 1
         new_pot_size = (pot_size/2) + (random_number * 1000)
 
