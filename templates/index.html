@@ -42,13 +42,14 @@
 
         data = {{ data }}
         console.log(data)
-        // tempData = []
-        // for(i = 0; i < data.length; i++) {
-        //     tempData[i].iteration = data[i][0]
-        //     tempData[i].winning_bid_number = data[i][1]   
-        //     tempData[i].potSize = data[i][2]
-        // }
-        // console.log(data)        
+        tempData = []
+        for(i = 0; i < data.length; i++) {
+            tempData[i].iteration = data[i][0]
+            tempData[i].winning_bid_number = data[i][1]   
+            tempData[i].potSize = data[i][2]
+        }
+        data = tempData
+        console.log(data)        
         // data = [];
         // iterations = 20;
         // data[0] = {"iteration": 0, "potSize": .0001}; //.0001
