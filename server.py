@@ -19,6 +19,7 @@ payment = Payment(app, wallet)
 
 # endpoint to get a question from the server
 @app.route('/view')
+@payment.required(0)
 def view():
     # can just grab the data here
     return render_template('index.html')
