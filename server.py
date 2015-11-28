@@ -28,7 +28,7 @@ def view():
     cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
     result = cursor.fetchall()
     print(result)
-    data = []
+    data = [len(result)]
     for d in result:
         print("here")
         # rounds should start from zero in the future
