@@ -26,7 +26,10 @@ def view():
     cursor = conn.cursor()
     # can just grab the data here
     cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
-    data = cursor.fetchone()
+    result = cursor.fetchall()
+    data = []
+    for d in result:
+        data[d[0]] = {"round_number": d[0], "winning_bid_number": d[1], "pot_size": d[2]}
     return render_template('index.html', data=data)
 
 # machine-payable endpoint that pays user if answer is correct
