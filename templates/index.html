@@ -47,7 +47,7 @@
             tempData[i] = {}
             tempData[i].iteration = data[i][0]
             tempData[i].winning_bid_number = data[i][1]   
-            tempData[i].potSize = data[i][2]/100000000
+            tempData[i].potSize = (Math.floor((data[i][2]/100000000) * 10000)/10000)
         }
         data = tempData
         console.log(data)        
