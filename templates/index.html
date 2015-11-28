@@ -87,7 +87,7 @@
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-            return "<strong>Pot size:</strong> <span style='color:red'>" + Math.floor((d.potSize) * 10000)/10000 + " bitcoins, " +" iteration: " + d.iteration + ", magic number: " + d.randomNumber + ", max: " + (10  * Math.pow(2, d.iteration)) + "</span>";
+            return "<strong>Pot size:</strong> <span style='color:red'>" + Math.floor((d.potSize) * 10000)/10000 + " bitcoins, " +" iteration: " + d.iteration + ", winning bid number: " + d.winning_bid_number + ", max: " + (10  * Math.pow(2, d.iteration)) + "</span>";
             })
             
         // Adds the svg canvas
