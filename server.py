@@ -30,9 +30,10 @@ def answer_question():
     cursor.execute("INSERT INTO bids (address) VALUES (%s) RETURNING id;", (client_payout_addr,))
     client_bid_number = cursor.fetchone()[0]
 
-    cursor.execute("SELECT winning_bid_number, pot_size FROM rounds ORDER BY round_number desc LIMIT 1;")
-    [winning_bid_number, pot_size] = cursor.fetchone()[0]
-    
+    cursor.execute("SELECT round_number, winning_bid_number, pot_size FROM rounds ORDER BY round_number desc LIMIT 1;")
+    print(cursor.fetchone())
+    #[winning_bid_number, pot_size] = cursor.fetchone()[0]
+
     print(potSize)
 
     if winning_bid_number == client_bid_number:
