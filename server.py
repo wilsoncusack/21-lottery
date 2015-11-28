@@ -18,7 +18,10 @@ payment = Payment(app, wallet)
 
 
 # endpoint to get a question from the server
-#@app.route('/lotterMe')
+@app.route('/view')
+def view():
+    # can just grab the data here
+    return render_template('index.html')
 
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/lotterMe')
@@ -38,7 +41,7 @@ def answer_question():
     print(pot_size)
 
     if winning_bid_number == client_bid_number:
-        #txid = wallet.send_to(client_payout_addr, pot_size)
+        #txid = wallet.send_to(client_payout_addr, pot_size/2)
 
         random_number = math.floor(random.random()*(10*(2**(current_round_number + 1)))) + 1
         new_pot_size = (pot_size/2) + (random_number * 1000)
