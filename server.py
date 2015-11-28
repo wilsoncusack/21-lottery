@@ -21,6 +21,7 @@ payment = Payment(app, wallet)
 @app.route('/view')
 @payment.required(0)
 def view():
+    print('here')
     # can just grab the data here
     return render_template('index.html')
 
