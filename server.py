@@ -22,7 +22,7 @@ payment = Payment(app, wallet)
 
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/lotterMe')
-@payment.required(1000)
+@payment.required(200)
 def answer_question():
     conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     cursor = conn.cursor()
