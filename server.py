@@ -32,8 +32,9 @@ def view():
     for d in result:
         print("here")
         # rounds should start from zero in the future
-        data[d[0] - 1] = dict(round_number = d[0], winning_bid_number = d[1], pot_size = d[2])
-        data[d[0] - 1] = flask.jsonify(**data[d[0] - 1])
+        data[d[0] - 1] = [d[0], d[1], d[2]]
+        #data[d[0] - 1] = dict(round_number = d[0], winning_bid_number = d[1], pot_size = d[2])
+        #data[d[0] - 1] = flask.jsonify(**data[d[0] - 1])
         #data[d[0] - 1] = {"round_number": d[0], "winning_bid_number": d[1], "pot_size": d[2]}
     print(data)
     return render_template('index.html', data=data)
