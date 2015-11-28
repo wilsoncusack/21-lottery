@@ -22,9 +22,12 @@ payment = Payment(app, wallet)
 @app.route('/view')
 @payment.required(0)
 def view():
-    print('here')
+    conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    cursor = conn.cursor()
     # can just grab the data here
-    return render_template('index.html')
+    cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;")
+    data = cursor.fetchone()
+    return render_template('index.html', data=data)
 
 # machine-payable endpoint that pays user if answer is correct
 @app.route('/lotterMe')
