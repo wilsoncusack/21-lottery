@@ -2,6 +2,7 @@ import os
 import json
 import random
 import psycopg2
+import math
 
 # import flask web microframework
 from flask import Flask
@@ -30,26 +31,20 @@ def answer_question():
     cursor.execute("INSERT INTO bids (address) VALUES (%s) RETURNING id;", (client_payout_addr,))
     client_bid_number = cursor.fetchone()[0]
 
+    # grabbing all of these things at once to minimize the number of requests to the db
     cursor.execute("SELECT round_number, winning_bid_number, pot_size FROM rounds ORDER BY round_number desc LIMIT 1;")
-    print(cursor.fetchone())
-    #[winning_bid_number, pot_size] = cursor.fetchone()[0]
+    [current_round_number, winning_bid_number, pot_size] = cursor.fetchone()
 
-    print(potSize)
+    print(pot_size)
 
     if winning_bid_number == client_bid_number:
-        cursor.execute("SELECT pot_size FROM rounds;")
-        potSize = int(cursor.fetchone()[0])
-        print("pot size = " + str(potSize))
+        #txid = wallet.send_to(client_payout_addr, pot_size)
 
-        print(request.args.get('payout_address'))
+        random_number = math.floor(random.random()*(10*(2**(current_round_number + 1)))) + 1
+        new_pot_size = (pot_size/2) + (random_number * 1000)
 
-        client_payout_addr = request.args.get('payout_address')
-        print("did you get here?")
-        #txid = wallet.send_to(client_payout_addr, potSize)
-        print("got here")
-        SQL = "UPDATE lottery SET pot_size = %s;"
-        newPotSize = (potSize/2) + 3000
-        data = (newPotSize,)
+        SQL = "INSERT INTO rounds (winning_bid_number, pot_size) VALUES (%s, %s);"
+        data = (random_number, new_pot_size,)
         cursor.execute(SQL, data)
 
         conn.commit()
