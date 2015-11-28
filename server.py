@@ -27,7 +27,7 @@ def answer_question():
     cursor = conn.cursor()
 
     client_payout_addr = request.args.get('payout_address')
-    cursor.execute("INSERT INTO bids (address) VALUES (%s);", (client_payout_addr,))
+    cursor.execute("INSERT INTO bids (address) VALUES (%s) RETURNING id;", (client_payout_addr,))
     print("here")
     client_bid_number = cursor.fetchone()[0]
     print(client_bid_number)
