@@ -28,15 +28,15 @@ def answer_question():
 
     client_payout_addr = request.args.get('payout_address')
     cursor.execute("INSERT INTO bids (address) VALUES (%s) RETURNING id;", (client_payout_addr,))
-    print("here")
     client_bid_number = cursor.fetchone()[0]
-    print(client_bid_number)
 
-    cursor.execute("SELECT winning_bid_number FROM rounds ORDER BY round_number desc LIMIT 1;")
-    winning_bid_number = cursor.fetchone()[0]
+    cursor.execute("SELECT winning_bid_number, pot_size FROM rounds ORDER BY round_number desc LIMIT 1;")
+    [winning_bid_number, pot_size] = cursor.fetchone()[0]
+    
+    print(potSize)
 
     if winning_bid_number == client_bid_number:
-        cursor.execute("SELECT pot_size FROM lottery;")
+        cursor.execute("SELECT pot_size FROM rounds;")
         potSize = int(cursor.fetchone()[0])
         print("pot size = " + str(potSize))
 
