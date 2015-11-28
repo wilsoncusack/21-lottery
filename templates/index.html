@@ -40,19 +40,27 @@
         width = 1000 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-        console.log({{ data }})        
-        data = [];
-        iterations = 20;
-        data[0] = {"iteration": 0, "potSize": .0001}; //.0001
-        for (i = 1; i <= iterations; i++) {
-            randomNumber = (Math.floor(Math.random()*(10*Math.pow(2, i))) + 1)
-            acc = randomNumber;
-            data[i] = {}
-            data[i].potSize = data[i - 1].potSize/2 + (.00001 * randomNumber)
-            //data[i].potSize = data[i].potSize/100000000
-            data[i].iteration = i;
-            data[i].randomNumber = randomNumber;
+        data = {{ data }}
+        console.log(data)
+        tempData = []
+        for(i = 0; i < data.length; i++) {
+            tempData[i].iteration = data[i][0]
+            tempData[i].winning_bid_number = data[i][1]   
+            tempData[i].potSize = data[i][2]
         }
+        console.log(data)        
+        // data = [];
+        // iterations = 20;
+        // data[0] = {"iteration": 0, "potSize": .0001}; //.0001
+        // for (i = 1; i <= iterations; i++) {
+        //     randomNumber = (Math.floor(Math.random()*(10*Math.pow(2, i))) + 1)
+        //     acc = randomNumber;
+        //     data[i] = {}
+        //     data[i].potSize = data[i - 1].potSize/2 + (.00001 * randomNumber)
+        //     //data[i].potSize = data[i].potSize/100000000
+        //     data[i].iteration = i;
+        //     data[i].randomNumber = randomNumber;
+        // }
         
 
         //Set the ranges

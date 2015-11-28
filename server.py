@@ -25,7 +25,7 @@ def view():
     conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
     cursor = conn.cursor()
     # can just grab the data here
-    cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;")
+    cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
     data = cursor.fetchone()
     return render_template('index.html', data=data)
 
