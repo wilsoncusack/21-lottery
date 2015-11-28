@@ -28,14 +28,15 @@ def view():
     cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
     result = cursor.fetchall()
     print(result)
-    data = [len(result)]
+    length = len(result)
+    data = [length]
     for d in result:
         # rounds should start from zero in the future
         data[d[0] - 1] = [d[0], d[1], d[2]]
         #data[d[0] - 1] = dict(round_number = d[0], winning_bid_number = d[1], pot_size = d[2])
         #data[d[0] - 1] = flask.jsonify(**data[d[0] - 1])
         #data[d[0] - 1] = {"round_number": d[0], "winning_bid_number": d[1], "pot_size": d[2]}
-    data[len(results) - 1][1] = -1
+    data[length - 1][1] = -1
     print(data)
     return render_template('index.html', data=data)
 
