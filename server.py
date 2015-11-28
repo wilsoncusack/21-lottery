@@ -31,7 +31,8 @@ def view():
     data = []
     for d in result:
         print("here")
-        data[d[0]] = {"round_number": d[0], "winning_bid_number": d[1], "pot_size": d[2]}
+        # rounds should start from zero in the future
+        data[d[0] - 1] = {"round_number": d[0], "winning_bid_number": d[1], "pot_size": d[2]}
     return render_template('index.html', data=data)
 
 # machine-payable endpoint that pays user if answer is correct
