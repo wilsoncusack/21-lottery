@@ -46,7 +46,6 @@
         height = 500 - margin.top - margin.bottom;
 
         data = {{ data }}
-        console.log(data)
         tempData = []
         for(i = 0; i < data.length; i++) {
             tempData[i] = {}
@@ -60,21 +59,7 @@
 
             tempData[i].potSize = (Math.floor((data[i][2]/100000000) * 10000)/10000)
         }
-        data = tempData
-        console.log(data)        
-        // data = [];
-        // iterations = 20;
-        // data[0] = {"iteration": 0, "potSize": .0001}; //.0001
-        // for (i = 1; i <= iterations; i++) {
-        //     randomNumber = (Math.floor(Math.random()*(10*Math.pow(2, i))) + 1)
-        //     acc = randomNumber;
-        //     data[i] = {}
-        //     data[i].potSize = data[i - 1].potSize/2 + (.00001 * randomNumber)
-        //     //data[i].potSize = data[i].potSize/100000000
-        //     data[i].iteration = i;
-        //     data[i].randomNumber = randomNumber;
-        // }
-        
+        data = tempData              
 
         //Set the ranges
         var x = d3.scale.linear()
@@ -135,7 +120,7 @@
             .style("text-anchor", "middle")
             .text("Iteration");
 
-        svg.append("text")      // text label for the x axis
+        svg.append("text")      // text label for the y axis
             .attr("x", -100 )
             .attr("y", 250 )
             .attr("class", "label")
