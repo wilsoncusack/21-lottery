@@ -79,7 +79,7 @@
 
         // Define the axes
         var xAxis = d3.svg.axis().scale(x)
-            .orient("bottom").ticks(data.length);
+            .orient("bottom").ticks(2);
 
         var yAxis = d3.svg.axis().scale(y)
             .orient("left").ticks(5);
@@ -125,7 +125,7 @@
 
         svg.append("text")      // text label for the x axis
             .attr("x", 500 )
-            .attr("y", 500 )
+            .attr("y", 450 )
             .style("text-anchor", "middle")
             .text("Iteration");
 
