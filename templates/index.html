@@ -124,10 +124,16 @@
             .call(xAxis);
 
         svg.append("text")      // text label for the x axis
-            .attr("x", 265 )
-            .attr("y", 240 )
+            .attr("x", 500 )
+            .attr("y", 500 )
             .style("text-anchor", "middle")
             .text("Iteration");
+
+        svg.append("text")      // text label for the x axis
+            .attr("x", -100 )
+            .attr("y", 250 )
+            .style("text-anchor", "middle")
+            .text("Bitcoins");
 
         // Add the Y Axis
         svg.append("g")
