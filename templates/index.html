@@ -23,7 +23,7 @@
             stroke-width: 1;
             shape-rendering: crispEdges;
         }
-        text {
+        .label {
             font-family: sans-serif;
             font-weight: 700;
             font-size: 15px;
@@ -80,7 +80,7 @@
         var x = d3.scale.linear()
             .domain([0, d3.max(data)])
             .range([0, width]);
-        var y = d3.scale.linear().range([height - 100, 0]);
+        var y = d3.scale.linear().range([height, 0]);
 
         // Define the axes
         var xAxis = d3.svg.axis().scale(x)
@@ -125,18 +125,20 @@
         // Add the X Axis
         svg.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + height - 100 + ")")
+            .attr("transform", "translate(0," + height + ")")
             .call(xAxis);
 
         svg.append("text")      // text label for the x axis
             .attr("x", 400 )
             .attr("y", 450 )
+            .attr("class", "label")
             .style("text-anchor", "middle")
             .text("Iteration");
 
         svg.append("text")      // text label for the x axis
             .attr("x", -100 )
             .attr("y", 250 )
+            .attr("class", "label")
             .style("text-anchor", "middle")
             .text("Bitcoins");
 
