@@ -50,7 +50,13 @@ def lottery():
     [current_round_number, winning_bid_number, pot_size] = cursor.fetchone()
 
     if winning_bid_number == client_bid_number:
-        txid = wallet.send_to(client_payout_addr, pot_size/2)
+        waiting_to_pay = false
+        try:
+            txid = wallet.send_to(client_payout_addr, pot_size/2)
+        except:
+            waiting_to_pay = true
+            # insert into waiting db
+            # INSERT INTO waiting_to_pay (bid_id, address, round, pot_size) values(client_bid_number, client_payout_addr, current_round_number, pot_size)
 
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
@@ -64,7 +70,11 @@ def lottery():
         conn.commit()
         cursor.close() 
 
-        return "You win!"
+        if waiting_to_pay:
+            return "You win! You will be paid " + str(pot_size/100000000) + " bitcoins," + 
+            " but due to the way the 21 handles sends we have to wait for our last payment to be validated before we can pay you. The money will be sent soon!"
+        else:
+            return "You win! You have been paid " + str(pot_size/100000000) + " bitcoins!"
     else:
         conn.commit()
         cursor.close() 
