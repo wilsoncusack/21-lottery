@@ -29,7 +29,7 @@ def view():
     result = cursor.fetchall()
     print(result)
     length = len(result)
-    data = [length]
+    data = [i for i in range(length)]
     for d in result:
         # rounds should start from zero in the future
         print('up here')
