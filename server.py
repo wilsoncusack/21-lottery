@@ -59,6 +59,7 @@ def lottery():
         waiting_to_pay = False
         try:
             print("before trying to send money")
+            prize = int(pot_size/2)
             txid = wallet.send_to(client_payout_addr, (pot_size/2))
             print("after trying to send money")
         except:
