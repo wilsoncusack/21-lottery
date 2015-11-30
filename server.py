@@ -57,7 +57,7 @@ def lottery():
             print("IN exception")
             waiting_to_pay = True
             # insert into waiting db
-            SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, pot_size) values (%s, %s, %s, %s)"
+            SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, prize) values (%s, %s, %s, %s)"
             data = (client_bid_number, client_payout_addr, current_round_number, pot_size/2,)
             cursor.execute(data, SQL)
 
