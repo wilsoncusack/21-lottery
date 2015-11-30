@@ -6,7 +6,6 @@
         <script src="https://d3js.org/d3.v3.min.js"></script>
         <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
-        <link type="text/css" rel="stylesheet" href="index.css">
     </head>
     <style> /* set the CSS */
 
@@ -41,8 +40,243 @@
 
     </style>
     <body>
+        <h3> Bitcoin Lottery for 21 Computes </h3>
         <div id="svg1"> </div>
+        <h4> Below is a display graph where you can enter the amount of iterations of the game you want to see. As the game functions on random 
+        probabilities, you will not see the same graph twice. </h4>
+        <input id="inputBox" name="inputBox" placeholder="Enter Number of Iterations">
         <div id="svg2"> </div>
-        <script src="main.js"></script>
+        <div id="about"> This game was made for the <a href="#"> 21 Computer </a> by <a href="#"> Peter Cusack </a>, 
+            <a href="#"> Alex Cusack </a>, and
+            <a href="#"> Wilson Cusack </a>.
+            You can see the code <a href="#"> here </a>. If you have a 21 Computer, download play.py and run `python3 play.py` to play.
+        </div>
+        <script type="text/javascript">
+
+        $('input').on('keypress', function(e) {
+            if(e.keyCode == 13){
+                iterations = parseInt($('#inputBox').val())
+                console.log(iterations)
+                forShowData = computeData(iterations)
+                $('.svg2').remove();
+                addGraph(forShowData);
+            }
+        });
+
+        var margin = {top: 50, right: 20, bottom: 30, left: 200},
+        width = 1000 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        data = {{ data }}
+        tempData = []
+        for(i = 0; i < data.length; i++) {
+            tempData[i] = {}
+            tempData[i].iteration = data[i][0]
+            if (data[i][1] == -1){
+                tempData[i].winning_bid_number = "secret"
+            }
+            else{
+                tempData[i].winning_bid_number = data[i][1]
+            }
+
+            tempData[i].potSize = (Math.floor((data[i][2]/100000000) * 10000)/10000)
+        }
+        data = tempData 
+
+        forShowData = [];
+        var computeData = function(iterations){
+            console.log('computing')
+            forShowData = [];
+            forShowData[0] = {"iteration": 0, "potSize": .0001}; //.0001
+            for (i = 1; i <= iterations; i++) {
+                randomNumber = (Math.floor(Math.random()*(10*Math.pow(2, i))) + 1)
+                acc = randomNumber;
+                forShowData[i] = {}
+                forShowData[i].potSize = forShowData[i - 1].potSize/2 + (.00001 * randomNumber)
+                //data[i].potSize = data[i].potSize/100000000
+                forShowData[i].iteration = i;
+                forShowData[i].randomNumber = randomNumber;
+            }
+            return forShowData   
+         }       
+
+        //Set the ranges
+        var x = d3.scale.linear()
+            .domain([0, d3.max(data)])
+            .range([0, width]);
+        var y = d3.scale.linear().range([height, 0]);
+
+        // Define the axes
+        var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom").ticks(data.length - 1);
+
+        var yAxis = d3.svg.axis().scale(y)
+            .orient("left").ticks(5);
+
+        // Define the line
+        var valueline = d3.svg.line()
+            .x(function(d) { return x(d.iteration); })
+            .y(function(d) { return y(d.potSize); });
+
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+            return "<strong>Pot size:</strong> <span style='color:red'>" + Math.floor((d.potSize) * 10000)/10000 + " bitcoins, " +" iteration: " + d.iteration + ", winning bid number: " + d.winning_bid_number + ", max: " + (10  * Math.pow(2, d.iteration)) + "</span>";
+            })
+            
+        // Adds the svg canvas
+        var svg = d3.select("#svg1")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", 
+                      "translate(" + margin.left + "," + margin.top + ")");
+
+        
+
+        svg.call(tip);
+
+        // Scale the range of the data
+        x.domain(d3.extent(data, function(d) { return d.iteration; }));
+        y.domain([0, d3.max(data, function(d) { return d.potSize; })]);
+
+        // Add the valueline path.
+        svg.append("path")
+            .attr("class", "line")
+            .attr("d", valueline(data));
+
+
+        // Add the X Axis
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("text")      // text label for the x axis
+            .attr("x", 400 )
+            .attr("y", 450 )
+            .attr("class", "label")
+            .style("text-anchor", "middle")
+            .text("Iteration");
+
+        svg.append("text")      // text label for the y axis
+            .attr("x", -100 )
+            .attr("y", 250 )
+            .attr("class", "label")
+            .style("text-anchor", "middle")
+            .text("Bitcoins");
+
+        // Add the Y Axis
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+
+        var circle = svg.selectAll("circle")
+            .data(data);
+
+        var circleEnter = circle.enter()
+            .append("circle")
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+        circleEnter.attr("cy", function(d,i){
+            return y(d.potSize)
+        });
+        circleEnter.attr("cx", function(d, i) {
+            return x(d.iteration); 
+        });
+        circleEnter.attr("r", function(d) { return 4; });
+        circleEnter.attr('style', 'fill: grey')
+
+var addGraph = function(forShowData){
+        var x2 = d3.scale.linear()
+            .domain([0, d3.max(forShowData)])
+            .range([0, width]);
+        var y2 = d3.scale.linear().range([height, 0]);
+
+        // Define the axes
+        var xAxis2 = d3.svg.axis().scale(x2)
+            .orient("bottom").ticks(forShowData.length - 1);
+
+        var yAxis2 = d3.svg.axis().scale(y2)
+            .orient("left").ticks(5);
+
+        // Define the line
+        var valueline2 = d3.svg.line()
+            .x(function(d) { return x2(d.iteration); })
+            .y(function(d) { return y2(d.potSize); });
+
+
+
+        var svg2 = d3.select("#svg2")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .attr("class", 'svg2')
+            .append("g")
+                .attr("transform", 
+                      "translate(" + margin.left + "," + margin.top + ")");
+
+        svg2.call(tip);
+        // Add the valueline path.
+
+        x2.domain(d3.extent(forShowData, function(d) { return d.iteration; }));
+        y2.domain([0, d3.max(forShowData, function(d) { return d.potSize; })]);
+
+        svg2.append("path")
+            .attr("class", "line")
+            .attr("d", valueline2(forShowData));
+
+
+        // Add the X Axis
+        svg2.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis2);
+
+        svg2.append("text")      // text label for the x axis
+            .attr("x", 400 )
+            .attr("y", 450 )
+            .attr("class", "label")
+            .style("text-anchor", "middle")
+            .text("Iteration");
+
+        svg2.append("text")      // text label for the y axis
+            .attr("x", -100 )
+            .attr("y", 250 )
+            .attr("class", "label")
+            .style("text-anchor", "middle")
+            .text("Bitcoins");
+
+        // Add the Y Axis
+        svg2.append("g")
+            .attr("class", "y axis")
+            .call(yAxis2);
+
+
+        var circle = svg2.selectAll("circle")
+            .data(forShowData);
+
+        var circleEnter = circle.enter()
+            .append("circle")
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+        circleEnter.attr("cy", function(d,i){
+            return y2(d.potSize)
+        });
+        circleEnter.attr("cx", function(d, i) {
+            return x2(d.iteration); 
+        });
+        circleEnter.attr("r", function(d) { return 4; });
+        circleEnter.attr('style', 'fill: grey')
+    }
+    forShowData = computeData(20);
+    addGraph(forShowData);
+
+        </script>
     </body>
 </html>
