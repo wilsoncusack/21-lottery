@@ -60,7 +60,7 @@ def lottery():
         try:
             print("before trying to send money")
             prize = int(pot_size/2)
-            txid = wallet.send_to(client_payout_addr, (pot_size/2))
+            txid = wallet.send_to(client_payout_addr, prize)
             print("after trying to send money")
         except:
             print("IN exception")
