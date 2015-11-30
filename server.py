@@ -31,6 +31,8 @@ def view():
     cursor.fetchone() #drop current round
     print('everwhere')
     result = cursor.fetchall()
+    print('everwhere2')
+    print(result)
     length = len(result)
     data = [i for i in range(length)]
     for d in result:
