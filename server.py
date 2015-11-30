@@ -50,12 +50,12 @@ def lottery():
     [current_round_number, winning_bid_number, pot_size] = cursor.fetchone()
 
     if winning_bid_number == client_bid_number:
-        waiting_to_pay = false
+        waiting_to_pay = False
         try:
             txid = wallet.send_to(client_payout_addr, (pot_size/2))
         except:
             print("IN exception")
-            waiting_to_pay = true
+            waiting_to_pay = True
             # insert into waiting db
             SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, pot_size) values (%s, %s, %s, %s)"
             data = (client_bid_number, client_payout_addr, current_round_number, pot_size/2,)
