@@ -58,8 +58,13 @@ def lottery():
             waiting_to_pay = True
             # insert into waiting db
             SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, prize) values (%s, %s, %s, %s)"
-            data = (client_bid_number, client_payout_addr, current_round_number, pot_size/2,)
-            cursor.execute(data, SQL)
+            data = (client_bid_number, client_payout_addr, current_round_number, (pot_size/2),)
+            print('got here')
+            try:
+                cursor.execute(data, SQL)
+            except Exception, e:
+                print(e)
+                pass
 
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
