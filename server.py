@@ -36,9 +36,9 @@ def view():
 
 # machine-payable endpoint that pays user if they are the winning request number
 @app.route('/lotterMe')
-@payment.required(1000)
+@payment.required(200)
 def lottery():
-    conn = psycopg2.connect(database="lottery3", user="twenty", password="md556eb55a1978f8a1a6a7149914d371379")
+    conn = psycopg2.connect(database=os.environ.get("DB_PSWD"), user=os.environ.get("DB_USER"), password=os.environ.get("DATABASE_PASSWORD"))
     cursor = conn.cursor()
 
     client_payout_addr = request.args.get('payout_address')
