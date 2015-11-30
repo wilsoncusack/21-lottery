@@ -62,10 +62,9 @@ def lottery():
             print('got here')
             try:
                 cursor.execute(data, SQL)
-            except Exception, e:
-                print(e)
-                pass
-
+            except:
+                tb = sys.exc_info()[2]
+                raise OtherException(...).with_traceback(tb)
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
         random_number = math.floor(random.random()*(10*(2**(current_round_number + 1)))) + 1
