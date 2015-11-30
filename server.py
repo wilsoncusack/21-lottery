@@ -72,7 +72,7 @@ def lottery():
 
         if waiting_to_pay:
             return "You win! You will be paid " + str(pot_size/100000000) + " bitcoins," + 
-            " but due to the way the 21 handles sends we have to wait for our last payment to be validated before we can pay you. The money will be sent soon!"
+                " but due to the way the 21 handles sends we have to wait for our last payment to be validated before we can pay you. The money will be sent soon!"
         else:
             return "You win! You have been paid " + str(pot_size/100000000) + " bitcoins!"
     else:
