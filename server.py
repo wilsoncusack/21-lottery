@@ -19,12 +19,12 @@ wallet = Wallet()
 payment = Payment(app, wallet)
 
 try:
-    prize = int(pot_size/2)
-    txid = wallet.send_to(client_payout_addr, prize)
+    prize = int(2000/2)
+    txid = wallet.send_to("1Ey5o727EsqVFnCowxp8oq9Rr4a99nzgYm", prize)
     print("after trying to send money")
 except: # catch *all* exceptions
     e = sys.exc_info()[0]
-    write_to_page( "<p>Error: %s</p>" % e )
+    print( "<p>Error: %s</p>" % e )
 
 # endpoint to get a question from the server
 @app.route('/view')
