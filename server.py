@@ -61,8 +61,10 @@ def lottery():
             data = (client_bid_number, client_payout_addr, current_round_number, (pot_size/2),)
             print('got here')
             try:
-                cursor.execute(data, SQL)
+                print("trying!!")
+                cursor.execute(SQL, data)
             except psycopg2.Error as e:
+                print("in here!!!!")
                 print(e.pgerror)
                 pass
 
