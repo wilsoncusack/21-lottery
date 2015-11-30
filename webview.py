@@ -28,8 +28,6 @@ def view():
 	    port=url.port
 	)
 	cursor = conn.cursor()
-	cursor.execute("SELECT * FROM test;")
-	print(cursor.fetchone())
 	return render_template('index.html')
 
 if __name__ == '__main__':
