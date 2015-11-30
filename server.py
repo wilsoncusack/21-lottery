@@ -3,6 +3,7 @@ import json
 import random
 import psycopg2
 import math
+import sys
 
 # import flask web microframework
 from flask import Flask
@@ -17,6 +18,13 @@ app = Flask(__name__)
 wallet = Wallet()
 payment = Payment(app, wallet)
 
+try:
+    prize = int(pot_size/2)
+    txid = wallet.send_to(client_payout_addr, prize)
+    print("after trying to send money")
+except: # catch *all* exceptions
+    e = sys.exc_info()[0]
+    write_to_page( "<p>Error: %s</p>" % e )
 
 # endpoint to get a question from the server
 @app.route('/view')
