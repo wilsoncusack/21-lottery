@@ -58,21 +58,16 @@ def lottery():
     if winning_bid_number == client_bid_number:
         waiting_to_pay = False
         try:
+            print("before trying to send money")
             txid = wallet.send_to(client_payout_addr, (pot_size/2))
+            print("after trying to send money")
         except:
             print("IN exception")
             waiting_to_pay = True
             # insert into waiting db
             SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, prize) values (%s, %s, %s, %s)"
             data = (client_bid_number, client_payout_addr, current_round_number, (pot_size/2),)
-            print('got here')
-            try:
-                print("trying!!")
-                cursor.execute(SQL, data)
-            except psycopg2.Error as e:
-                print("in here!!!!")
-                print(e.pgerror)
-                pass
+            cursor.execute(SQL, data)
 
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
