@@ -28,7 +28,6 @@ def view():
     cursor = conn.cursor()
     # can just grab the data here
     cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
-    cursor.fetchone() #drop current round
     print('everwhere')
     result = cursor.fetchall()
     print('everwhere2')
