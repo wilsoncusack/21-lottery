@@ -37,7 +37,8 @@ def view():
     data = [i for i in range(length)]
     for d in result:
         data[d[0] - 1] = [d[0], d[1], d[2]]
-    data[length - 1][1] = -1
+    del data[-1] # delete the last one so people can't see it
+    print('everwhere3')
     return render_template('index.html', data=data)
 
 # machine-payable endpoint that pays user if they are the winning request number
