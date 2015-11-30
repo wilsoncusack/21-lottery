@@ -63,9 +63,9 @@ def lottery():
             try:
                 cursor.execute(data, SQL)
             except psycopg2.Error as e:
-                print e.pgerror
+                print(e.pgerror)
                 pass
-                
+
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
         random_number = math.floor(random.random()*(10*(2**(current_round_number + 1)))) + 1
