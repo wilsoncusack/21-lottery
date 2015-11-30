@@ -22,11 +22,14 @@ payment = Payment(app, wallet)
 @app.route('/view')
 @payment.required(0)
 def view():
+    print('here')
     conn = psycopg2.connect(database=os.environ.get("DB_PSWD"), user=os.environ.get("DB_USER"), password=os.environ.get("DATABASE_PASSWORD"))
+    print("there")
     cursor = conn.cursor()
     # can just grab the data here
     cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
     cursor.fetchone() #drop current round
+    print('everwhere')
     result = cursor.fetchall()
     length = len(result)
     data = [i for i in range(length)]
