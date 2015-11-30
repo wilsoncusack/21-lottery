@@ -1,0 +1,28 @@
+body { font: 12px Arial;}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 4;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+.label {
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+svg{
+    margin-left: 30px;
+}
+
+circle {
+    background-color: blue;
+}
