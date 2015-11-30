@@ -52,11 +52,14 @@ def lottery():
     if winning_bid_number == client_bid_number:
         waiting_to_pay = false
         try:
-            txid = wallet.send_to(client_payout_addr, pot_size/2)
+            txid = wallet.send_to(client_payout_addr, (pot_size/2))
         except:
+            print("IN exception")
             waiting_to_pay = true
             # insert into waiting db
-            # INSERT INTO waiting_to_pay (bid_id, address, round, pot_size) values(client_bid_number, client_payout_addr, current_round_number, pot_size)
+            SQL = "INSERT INTO waiting_to_pay (bid_id, address, round, pot_size) values (%s, %s, %s, %s)"
+            data = (client_bid_number, client_payout_addr, current_round_number, pot_size/2,)
+            cursor.execute(data, SQL)
 
         cursor.execute("UPDATE bids SET is_winner = TRUE WHERE id = %s;", (client_bid_number,))
 
