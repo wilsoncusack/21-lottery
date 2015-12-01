@@ -4,7 +4,7 @@ import random
 import psycopg2
 import math
 import sys
-import urlparse
+import urllib.parse
 # import flask web microframework
 from flask import Flask
 from flask import request
@@ -23,8 +23,8 @@ payment = Payment(app, wallet)
 @app.route('/lotterMe')
 @payment.required(200)
 def lottery():
-    urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    urllib.parse.uses_netloc.append("postgres")
+    url = urllib.parse.urlparse(os.environ["DATABASE_URL"])
 
     conn = psycopg2.connect(
         database=url.path[1:],
