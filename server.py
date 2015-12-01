@@ -18,13 +18,13 @@ app = Flask(__name__)
 wallet = Wallet()
 payment = Payment(app, wallet)
 
-try:
-    prize = int(2000/2)
-    txid = wallet.send_to("1Ey5o727EsqVFnCowxp8oq9Rr4a99nzgYm", prize)
-    print("after trying to send money")
-except: # catch *all* exceptions
-    e = sys.exc_info()[0]
-    print( "<p>Error: %s</p>" % e )
+# try:
+#     prize = int(2000/2)
+#     txid = wallet.send_to("1Ey5o727EsqVFnCowxp8oq9Rr4a99nzgYm", prize)
+#     print("after trying to send money")
+# except: # catch *all* exceptions
+#     e = sys.exc_info()[0]
+#     print( "<p>Error: %s</p>" % e )
 
 # endpoint to get a question from the server
 @app.route('/view')
@@ -71,6 +71,8 @@ def lottery():
             txid = wallet.send_to(client_payout_addr, prize)
             print("after trying to send money")
         except:
+            e = sys.exc_info()[0]
+            print( "<p>Error: %s</p>" % e )
             print("IN exception")
             waiting_to_pay = True
             # insert into waiting db
