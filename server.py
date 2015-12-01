@@ -70,9 +70,9 @@ def lottery():
         cursor.close() 
 
         if waiting_to_pay:
-            return "You win! You will be paid " + prize + " Satoshis (" + str(prize/100000000) + " bitcoins), but due to the way the 21 handles sends we have to wait for our last payment to be validated before we can pay you. It will be sent soon!"
+            return "You win! You will be paid " + str(prize) + " Satoshis (" + str(prize/100000000) + " bitcoins), but due to the way the 21 handles sends we have to wait for our last payment to be validated before we can pay you. It will be sent soon!"
         else:
-            return "You win! You have been paid " + prize + " Satoshis (" + str(prize/100000000) + " bitcoins!"
+            return "You win! You have been paid " + str(prize) + " Satoshis (" + str(prize/100000000) + " bitcoins!"
     else:
         conn.commit()
         cursor.close() 
