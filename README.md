@@ -22,7 +22,7 @@ python3 <targeted_file.py>
 * Starting pot size: 0
 * Winning bet #: 6
 * Better #6 receives 6,000 Satoshi back (including their 1000 bet being returned)
-_________________
+* ----------------------
 * Round 2 size: 20
 * Starting pot size: 5000
 * Winning bet #: 18
