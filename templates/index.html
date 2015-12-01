@@ -82,6 +82,7 @@
         height = 500 - margin.top - margin.bottom;
 
         data = {{ data }}
+        console.log(data)
         tempData = []
         for(i = 0; i < data.length; i++) {
             tempData[i] = {}
@@ -97,6 +98,7 @@
             
         }
         data = tempData 
+        console.log(data)
 
         forShowData = [];
         var computeData = function(iterations){
@@ -138,7 +140,7 @@
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function(d) {
-            return "<strong>Pot size:</strong> <span style='color:red'>" + Math.floor((d.potSize) * 10000)/10000 + " bitcoins, " +" iteration: " + d.iteration + ", winning bid number: " + d.winning_bid_number + ", max: " + (10  * Math.pow(2, d.iteration)) + ", paid reward: " + d.reward + "</span>";
+            return "<strong>Pot size:</strong> <span style='color:red'>" + d.potSize + " bitcoins, " +" iteration: " + d.iteration + ", winning bid number: " + d.winning_bid_number + ", max: " + (10  * Math.pow(2, d.iteration)) + ", paid reward: " + d.reward + "</span>";
             })
             
         // Adds the svg canvas
