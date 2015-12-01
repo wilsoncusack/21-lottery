@@ -77,7 +77,7 @@ def lottery():
         conn.commit()
         cursor.close() 
 
-        return "Sorry! Try again!"
+        return "Sorry, you're not the winning bet. Try again!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
