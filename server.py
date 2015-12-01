@@ -4,7 +4,7 @@ import random
 import psycopg2
 import math
 import sys
-
+import urlparse
 # import flask web microframework
 from flask import Flask
 from flask import request
