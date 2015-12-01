@@ -12,18 +12,13 @@ username = Config().username
 requests = BitTransferRequests(wallet, username)
 
 # server address
-server_url = 'http://localhost:5000/'
+server_url = 'http://10.146.115.109:8080/' # need to change this to globally accessible address  
 
 def play():
 
-    # get the question from the server
-    response = requests.get(url=server_url+'question')
-    question = response.text
-
-    ans = input("Question: {}?\n".format(question))
-    sel_url = server_url + 'play?question={0}&selection={1}&payout_address={2}'
-    answer = requests.get(url=sel_url.format(question,ans, wallet.get_payout_address()))
-    print(answer.text)
+    lotter_url = server_url+'lotterMe?payout_address={0}'
+    response = requests.get(url=lotter_url.format(wallet.get_payout_address()))
+    print(response.text)
 
 if __name__ == '__main__':
     play()
