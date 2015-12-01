@@ -17,12 +17,13 @@ python3 <targeted_file.py>
 * The winning better received 50% of the total pot, the remaining 50% is rolled-over into the next round's pot
 
 #### Example:
-Round 1 size: 10
-Starting pot size: 0
-Winning bet #: 6
-Better #6 receives 6,000 Satoshi back (including their 1000 bet being returned)
-----
-Round 2 size: 20
-Starting pot size: 5000
-Winning bet #: 18
-Better #18 receives 24,000 Satoshi (including their 1000 bet being returned)
+
+* Round 1 size: 10
+* Starting pot size: 0
+* Winning bet #: 6
+* Better #6 receives 6,000 Satoshi back (including their 1000 bet being returned)
+_________________
+* Round 2 size: 20
+* Starting pot size: 5000
+* Winning bet #: 18
+* Better #18 receives 24,000 Satoshi (including their 1000 bet being returned)
