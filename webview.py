@@ -28,7 +28,13 @@ def view():
 	    port=url.port
 	)
 	cursor = conn.cursor()
-	return render_template('index.html')
+	cursor.execute("SELECT * FROM rounds ORDER BY round_number asc;") # need to modify to not return the most recent
+    length = len(result)
+    data = [i for i in range(length)]
+    for d in result:
+        data[d[0] - 1] = [d[0], d[1], d[2]]
+    del data[-1] # delete the last one so people can't see it
+    return render_template('index.html', data=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
