@@ -92,9 +92,9 @@
             else{
                 tempData[i].winning_bid_number = data[i][1]
             }
-
+            tempData[i].reward = (Math.floor((data[i][2]/2)/100000000) * 10000)/10000)
             tempData[i].potSize = (Math.floor((data[i][2]/100000000) * 10000)/10000)
-            tempData[i].reward = tempData[i].potSize/2
+            
         }
         data = tempData 
 
