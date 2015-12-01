@@ -12,7 +12,7 @@ username = Config().username
 requests = BitTransferRequests(wallet, username)
 
 # server address
-server_url = 'http://192.168.1.245:5000/' # need to change this to globally accessible address  
+server_url = 'http://192.168.1.207:8080/' # need to change this to globally accessible address  
 
 def play():
 
